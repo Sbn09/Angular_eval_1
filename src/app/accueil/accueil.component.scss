@@ -18,12 +18,47 @@
   .contenu {
     background-color: lightgray;
     flex: 1;
+    display: flex;
+    flex-wrap: wrap;
 
-    img {
+    .image {
+      position: relative;
       width: 100px;
       height: 100px;
-      object-fit: cover;
-      background-color: black;
+
+      img {
+        width: inherit;
+        height: inherit;
+        object-fit: cover;
+        background-color: black;
+      }
+
+      &:hover .btn {
+        display: block;
+      }
+
+      .btn {
+        position: absolute;
+        display: none;
+
+        &.plus {
+          top: 5px;
+          right: 5px;
+        }
+        &.moins {
+          bottom: 5px;
+          right: 5px;
+        }
+        &.supprime {
+          top: 5px;
+          left: 5px;
+          background-color: red;
+        }
+
+        &:hover {
+          background-color: white;
+        }
+      }
     }
   }
 
