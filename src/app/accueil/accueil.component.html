@@ -1,3 +1,6 @@
+<input [(ngModel)]="urlImage" />
+<div class="btn" (click)="onClicAjouter()">Ajouter</div>
+
 <div class="liste-categories">
   @for (categorie of categories; track $index) {
 
@@ -6,13 +9,10 @@
       <p>{{ categorie.nom }}</p>
     </div>
     <div class="contenu">
-        
-      <img
-        src=""
-      />
-      
+      @for (urlImage of categorie.images; track $index) {
+      <img src="{{ urlImage }}" />
+      }
     </div>
   </div>
-
   }
 </div>
