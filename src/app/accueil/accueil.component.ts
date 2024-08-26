@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -14,7 +15,14 @@ export class AccueilComponent {
 
   categories: { nom: string; images: string[] }[] = [];
 
+  http: HttpClient = inject(HttpClient);
+
   ngOnInit() {
+
+    this.http
+      .get("http://localhost:3000/categories")
+      .subscribe(resultat => console.log(resultat));
+
     const categoriesSauvegarde = localStorage.getItem('categories');
 
     if (categoriesSauvegarde == null) {
