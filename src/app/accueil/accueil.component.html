@@ -1,5 +1,18 @@
-<input [(ngModel)]="urlImage" />
-<div class="btn" (click)="onClicAjouter()">Ajouter</div>
+<div>
+  <input [(ngModel)]="urlImage" />
+  <div class="btn" (click)="onClicAjouterImage()">Ajouter une image</div>
+</div>
+
+<div>
+  <input [(ngModel)]="nomCategorie" />
+  <div class="btn" (click)="onClicAjouterCategorie()">
+    Ajouter une catégorie
+  </div>
+</div>
+
+<div>
+  <div class="btn" (click)="reset()">Réinitialiser</div>
+</div>
 
 <div class="liste-categories">
   @for (categorie of categories; track $index; let indexCategorie = $index) {

@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class AccueilComponent {
   urlImage: string = '';
+  nomCategorie: string = '';
 
   categories: { nom: string; images: string[] }[] = [];
 
@@ -23,10 +24,18 @@ export class AccueilComponent {
     }
   }
 
-  onClicAjouter() {
+  onClicAjouterImage() {
     this.categories[0].images.push(this.urlImage);
     this.urlImage = '';
     this.sauvegarde();
+  }
+
+  onClicAjouterCategorie() {
+    if (this.nomCategorie != '') {
+      this.categories.push({ nom: this.nomCategorie, images: [] });
+      this.nomCategorie = '';
+      this.sauvegarde();
+    }
   }
 
   reset() {
