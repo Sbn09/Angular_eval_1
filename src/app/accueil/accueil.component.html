@@ -1,1 +1,18 @@
-<h1>{{titre}}</h1>
+<div class="liste-categories">
+  @for (categorie of categories; track $index) {
+
+  <div class="categorie">
+    <div class="en-tete">
+      <p>{{ categorie.nom }}</p>
+    </div>
+    <div class="contenu">
+        
+      <img
+        src=""
+      />
+      
+    </div>
+  </div>
+
+  }
+</div>
