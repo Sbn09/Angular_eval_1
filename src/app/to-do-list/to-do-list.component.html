@@ -1,0 +1,53 @@
+<div class="container my-5"> 
+    <div>
+      <input class="me-3" [(ngModel)]="titleTask" placeholder="Entrez le titre de votre tâche" />
+      <div class="btn btn-info" (click)="onClickAddTask()">
+        Ajouter une tâche
+      </div>
+    </div>
+    
+    <div>
+      <div class="btn btn-info" (click)="reset()">Réinitialiser</div>
+    </div>
+  
+    <div class="m-5">
+        <div class="tasks-list mx-auto">
+            <h2>Liste de mes tâches</h2>
+            @for (task of tasks; track $index; let indexTask = $index) {
+                <div class="task d-flex justify-content-between align-items-center">
+                <div class="d-flex gap-3">
+                    <div class="checkbox-wrapper-15">
+                        @if (editingIndex !== indexTask) {
+                            <input class="inp-cbx" id="cbx-{{indexTask}}" type="checkbox" [checked]="task.status" (change)="toggleTaskStatus(indexTask)" style="display: none;" />
+                            <label class="cbx" for="cbx-{{indexTask}}">
+                            <span>
+                                <svg width="12px" height="9px" viewBox="0 0 12 9">
+                                <polyline points="1 5 4 8 11 1"></polyline>
+                                </svg>
+                            </span>
+                            <span class="fw-medium fs-5 | m-0"> {{ task.title }}</span>
+                        </label>
+                        }
+                        @if (editingIndex === indexTask) {
+                            <input [(ngModel)]="editingTitle" />
+                        }
+                    
+                    </div>
+                </div>
+                @if (editingIndex !== indexTask) {
+                    <div class="d-flex gap-3">
+                        <button type="button" class="btn btn-danger" (click)="onClickDeleteTask(indexTask)">Suppr</button>
+                        <button type="button" class="btn btn-info" (click)="onClickEditTask(indexTask)">Edit</button>
+                    </div>
+                }
+                @if (editingIndex === indexTask) {
+                    <div class="d-flex gap-3">
+                        <button type="button" class="btn btn-success" (click)="onSaveTask(indexTask)">Enregistrer</button>
+                        <button type="button" class="btn btn-secondary" (click)="onCancelEdit()">Annuler</button>
+                    </div>
+                }
+                </div>
+            }
+        </div>
+    </div>
+  </div>

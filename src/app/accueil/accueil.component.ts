@@ -1,5 +1,4 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -7,97 +6,26 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [FormsModule],
   templateUrl: './accueil.component.html',
-  styleUrl: './accueil.component.scss',
+  styleUrls: ['./accueil.component.scss'],
 })
 export class AccueilComponent {
-  urlImage: string = '';
-  nomCategorie: string = '';
-
-  categories: { nom: string; images: string[] }[] = [];
-
-  http: HttpClient = inject(HttpClient);
+  totalTask: number = 0;
+  tasksCompleted: number = 0;
+  tasksInProgress: number = 0;
+  tasks: any[] = [];
 
   ngOnInit() {
-
-    this.http
-      .get("http://localhost:3000/categories")
-      .subscribe(resultat => console.log(resultat));
-
-    const categoriesSauvegarde = localStorage.getItem('categories');
-
-    if (categoriesSauvegarde == null) {
-      this.reset();
+    const SaveTask = localStorage.getItem('tasks');
+    if (SaveTask) {
+      this.tasks = JSON.parse(SaveTask);
+      this.totalTask = this.tasks.length;
+      this.tasksCompleted = this.tasks.filter(task => task.status).length;
+      this.tasksInProgress = this.totalTask - this.tasksCompleted;
     } else {
-      this.categories = JSON.parse(categoriesSauvegarde);
+      this.totalTask = 0;
+      this.tasksCompleted = 0;
+      this.tasksInProgress = 0;
+      this.tasks = [];
     }
-  }
-
-  onClicAjouterImage() {
-    this.categories[0].images.push(this.urlImage);
-    this.urlImage = '';
-    this.sauvegarde();
-  }
-
-  onClicAjouterCategorie() {
-    if (this.nomCategorie != '') {
-      this.categories.push({ nom: this.nomCategorie, images: [] });
-      this.nomCategorie = '';
-      this.sauvegarde();
-    }
-  }
-
-  reset() {
-    this.categories = [
-      {
-        nom: 'tres bien',
-        images: [],
-      },
-      {
-        nom: 'bien',
-        images: [],
-      },
-      {
-        nom: 'moyen',
-        images: [],
-      },
-      {
-        nom: 'bof',
-        images: [],
-      },
-      {
-        nom: 'nul',
-        images: [],
-      },
-    ];
-
-    this.sauvegarde();
-  }
-
-  sauvegarde() {
-    localStorage.setItem('categories', JSON.stringify(this.categories));
-  }
-
-  onClicChangementCategorie(
-    indexCategorie: number,
-    indexImage: number,
-    moins: boolean,
-  ) {
-    //on récupère l'url de l'image cliquée
-    const urlImage = this.categories[indexCategorie].images[indexImage];
-
-    //on ajoute l'image dans la catégorie inférieure si moins = true, et supérieure si moins = false
-    this.categories[indexCategorie + (moins ? 1 : -1)].images.push(urlImage);
-
-    //on supprime l'image de la catégorie actuelle
-    this.categories[indexCategorie].images.splice(indexImage, 1);
-
-    this.sauvegarde();
-  }
-
-  onClicSupprime(indexCategorie: number, indexImage: number) {
-    //on supprime l'image de la catégorie actuelle
-    this.categories[indexCategorie].images.splice(indexImage, 1);
-
-    this.sauvegarde();
   }
 }
